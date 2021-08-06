@@ -127,6 +127,58 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/peopleManage',
+    component: Layout,
+    redirect: '/peopleManage',
+    children: [
+      {
+        path: '/peopleManage',
+        component: () => import('@/views/peopleManage/index'),
+        name: 'PeopleManage',
+        meta: {
+          title: '人员管理 ',
+          noCache: true,
+          icon: 'icon'
+        }
+      }
+    ]
+  },
+  {
+    path: '/eventManage',
+    component: Layout,
+    redirect: '/eventManage',
+    children: [
+      {
+        path: '/eventManage',
+        component: () => import('@/views/eventManage/index'),
+        name: 'eventManage',
+        meta: {
+          title: '活动管理 ',
+          noCache: true,
+          icon: 'icon'
+        }
+      }
+    ]
+  },
+  {
+    path: '/menuManage',
+    component: Layout,
+    redirect: '/menuManage',
+    children: [
+      {
+        path: '/menuManage',
+        component: () => import('@/views/menuManage/index'),
+        name: 'menuManage',
+        meta: {
+          title: '菜单管理 ',
+          noCache: true,
+          icon: 'icon'
+        }
+      }
+    ]
+  },
+
+  {
     path: '*',
     redirect: '/404',
     hidden: true
