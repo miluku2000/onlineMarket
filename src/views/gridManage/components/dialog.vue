@@ -13,7 +13,7 @@
           </el-form-item>
           <el-form-item v-if="form.administrativeId" label="组织类型：" prop="gridType">
             <el-select v-model="form.gridType" placeholder="请选择组织类型" :disabled="type!=='add'">
-              <el-option v-if="memberType<3" label="村" :value="3" />label="村" :value="3" />
+              <el-option v-if="memberType<3" label="村" :value="3" />
               <el-option label="小组" :value="4" />
             </el-select>
           </el-form-item>
