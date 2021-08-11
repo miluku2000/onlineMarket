@@ -24,9 +24,6 @@
         highlight-current-row
         style="width: 100%;"
       >
-        <el-table-column label="序号"><template slot-scope="scope"> {{ scope.$index + 1 }} </template></el-table-column>
-
-        <el-table-column type="selection" width="50" />
         <el-table-column label="姓名" prop="name" />
         <el-table-column label="手机号" prop="phone" />
         <el-table-column label="身份证号" prop="id" />
