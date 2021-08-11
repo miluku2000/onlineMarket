@@ -3,7 +3,6 @@
     <el-row>
       <el-col :span="20">
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-      
           <el-form-item label="菜单名称" prop="name">
             <el-input v-model="form.name" placeholder="菜单名称" />
           </el-form-item>
@@ -13,8 +12,6 @@
           <el-form-item label="菜单介绍" prop="idcard">
             <el-input v-model="form.intro" placeholder="菜单介绍" />
           </el-form-item>
-  
-        
         </el-form>
       </el-col>
     </el-row>
@@ -35,12 +32,14 @@
 import { addHousehold } from '@/api/householdManage'
 import { fetchChidList } from '@/api/administrativeManage'
 import { selectGridListNew } from '@/api/gridManage'
-import SelectTree from '@/components/SelectTree'
 import { deepClone } from '../../../utils'
 export default {
   name: 'MyDialog',
-  components: { SelectTree },
   props: {
+    title: {
+      type: String,
+      default: ''
+    },
     name: {
       type: String,
       default: ''
@@ -77,7 +76,7 @@ export default {
       form: {
         name: '',
         if: '',
-        intro: '',
+        intro: ''
       },
       searchTreeForm: {
         memberType: this.$store.getters.token.memberType,
@@ -172,11 +171,11 @@ export default {
     },
     closeDialog() {
       console.log(this.form)
-        this.form= {
+      this.form = {
         name: '',
         if: '',
-        intro: '',
-      },
+        intro: ''
+      }
       this.form.administrativeId = ''
       this.dialogVisible = false
       this.$refs.form.resetFields()

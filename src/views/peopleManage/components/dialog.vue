@@ -1,54 +1,53 @@
 <template>
   <div>
     <el-dialog :title="title" :visible.sync="dialogVisible" :destroy-on-close="true" :before-close="closeDialog">
-    <el-row>
-      <el-col :span="20">
-        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="form.name" placeholder="姓名" />
-          </el-form-item>
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="form.phone" placeholder="手机号" />
-          </el-form-item>
-          <el-form-item label="身份证号" prop="id">
-            <el-input v-model="form.id" placeholder="身份证" />
-          </el-form-item>
-          <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" placeholder="请选择性别">
-              <el-option label="男" value="1" />
-              <el-option label="女" value="2" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="地址" prop="name">
-            <el-input v-model="form.address" placeholder="地址" />
-          </el-form-item>
-        
-        </el-form>
-      </el-col>
-    </el-row>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="closeDialog">
-        确认
-      </el-button>
-    </div>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="closeDialog">
-        取消
-      </el-button>
-    </div>
-  </el-dialog>
+      <el-row>
+        <el-col :span="20">
+          <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="form.name" placeholder="姓名" />
+            </el-form-item>
+            <el-form-item label="手机号" prop="phone">
+              <el-input v-model="form.phone" placeholder="手机号" />
+            </el-form-item>
+            <el-form-item label="身份证号" prop="id">
+              <el-input v-model="form.id" placeholder="身份证" />
+            </el-form-item>
+            <el-form-item label="性别" prop="sex">
+              <el-select v-model="form.sex" placeholder="请选择性别">
+                <el-option label="男" value="1" />
+                <el-option label="女" value="2" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="地址" prop="name">
+              <el-input v-model="form.address" placeholder="地址" />
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">
+          确认
+        </el-button>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">
+          取消
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchDetails, insertLabel, updateLabel } from '@/api/labelManage'
+// import { fetchDetails, insertLabel, updateLabel } from '@/api/labelManage'
 import { getToken } from '@/utils/auth'
 import { regionData } from 'element-china-area-data'
 
 export default {
   name: 'MyDialog',
   components: {},
-  userIndex:0,
+  userIndex: 0,
   props: {
     title: {
       type: String,
@@ -76,14 +75,14 @@ export default {
         dict: 'NORMAL_PIC'
       },
       dialogImgVisible: false,
-       form: {
+      form: {
         phone: '',
         address: '',
         sex: '',
         id: '',
         name: ''
       },
-      userIndex:0,
+      userIndex: 0,
       rules: {
         phone: [
           { required: true, message: '请输入手机号', trigger: 'blur' }
@@ -100,7 +99,7 @@ export default {
         id: [
           { required: true, message: '请输入身份证号', trigger: 'blur' }
         ]
-      },
+      }
     }
   },
   computed: {
@@ -115,11 +114,8 @@ export default {
   },
   created() {},
   methods: {
-    methods: {
-      handleChange (value) {
-       
-        console.log(value)
-      }
+    handleChange(value) {
+      console.log(value)
     },
     // fetchData(id) {
     //   const postData = { 'id': id }
@@ -169,13 +165,13 @@ export default {
     },
     closeDialog() {
       this.dialogVisible = false
-      this.form={
+      this.form = {
         phone: '',
         address: '',
         sex: '',
         id: '',
         name: ''
-      },
+      }
       this.$refs.form.resetFields()
     }
   }

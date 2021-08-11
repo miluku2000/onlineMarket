@@ -18,69 +18,39 @@
       </el-form>
     </div>
     <el-row>
-      <el-col v-if="memberType<3" :span="4">
-        <el-tree
-          ref="tree"
-          node-key="id"
-          :expand-on-click-node="false"
-          :data="options"
-          highlight-current
-          :props="defaultProps"
-          :load="loadNode"
-          lazy
-          @node-click="handleNodeClick"
-        />
-      </el-col>
-      <el-col :span="memberType<3?20:24">
-        <el-table
-          ref="multipleTable"
-          v-loading="listLoading"
-          :data="tableData"
-          node-key="id"
-          style="width: 100%;"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column label="序号"><template slot-scope="scope"> {{scope.$index + 1 }} </template></el-table-column>
+      <el-table
+        :key="tableKey"
+        :data="tableData"
+        highlight-current-row
+        style="width: 100%;"
+      >
+        <el-table-column label="序号"><template slot-scope="scope"> {{ scope.$index + 1 }} </template></el-table-column>
 
-          <el-table-column type="selection" width="50" />
-          <el-table-column label="姓名" prop="name">
-            
-          </el-table-column>
-          <el-table-column label="手机号" prop="phone">
-            
-          </el-table-column>
-          <el-table-column label="身份证号" prop="id">
-           
-          </el-table-column>
-          <el-table-column label="性别" prop="sex">
-          </el-table-column>
-
-          <el-table-column label="地址" prop="address">
-            
-          </el-table-column>
-        
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-         
-                <el-button type="primary" size="mini" @click="editUser(scope.row,scope.$index)">
-                  编辑
-                </el-button>
-                <el-button type="warning" size="mini">
-                  删除
-                </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <pagination v-show="total>0" :total="total" :page.sync="searchForm.pageNum" :limit.sync="searchForm.pageSize" @pagination="getList" />
-      </el-col>
+        <el-table-column type="selection" width="50" />
+        <el-table-column label="姓名" prop="name" />
+        <el-table-column label="手机号" prop="phone" />
+        <el-table-column label="身份证号" prop="id" />
+        <el-table-column label="性别" prop="sex" />
+        <el-table-column label="地址" prop="address" />
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="editUser(scope.row,scope.$index)">
+              编辑
+            </el-button>
+            <el-button type="warning" size="mini">
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination v-show="total>0" :total="total" :page.sync="searchForm.pageNum" :limit.sync="searchForm.pageSize" />
     </el-row>
-    <myDialog ref="myDialog" :title="title" :visible.sync="visible" :type="dialogType" @getList="getList($event)" />
-    <treeDialog ref="treeDialog" :multiple-selection="multipleSelection" :title="title" :visible.sync="visible1" :type="dialogType" @getList="getList($event)" />
+    <myDialog ref="myDialog" :title="title" :visible.sync="visible" :type="dialogType" />
   </div>
 </template>
 
 <script>
-import { fetchList, deleteLabel } from '@/api/labelManage'
+// import { fetchList, deleteLabel } from '@/api/labelManage'
 import Pagination from '@/components/Pagination'
 import MyDialog from './components/dialog'
 export default {
@@ -88,29 +58,29 @@ export default {
   components: { Pagination, MyDialog },
   data() {
     return {
-       "tableData":[
-      {
-        "name": "胡图图",
-        "phone": "12345678901",
-        "id": "320682200007130502",
-        "sex": "男",
-        "address":"翻斗大街翻斗花园二号楼1001室"  
-      },
-      {
-        "name": "胡英俊",
-        "phone": "12345678901",
-        "id": "320682200007130503",
-        "sex": "男",
-        "address":"翻斗大街翻斗花园二号楼1001室"  
-      },
-      {
-        "name": "张小丽",
-        "phone": "12345678901",
-        "id": "320682200007130504",
-        "sex": "女",
-        "address":"翻斗大街翻斗花园二号楼1001室"  
-      }
-    ],
+      'tableData': [
+        {
+          'name': '胡图图',
+          'phone': '12345678901',
+          'id': '320682200007130502',
+          'sex': '男',
+          'address': '翻斗大街翻斗花园二号楼1001室'
+        },
+        {
+          'name': '胡英俊',
+          'phone': '12345678901',
+          'id': '320682200007130503',
+          'sex': '男',
+          'address': '翻斗大街翻斗花园二号楼1001室'
+        },
+        {
+          'name': '张小丽',
+          'phone': '12345678901',
+          'id': '320682200007130504',
+          'sex': '女',
+          'address': '翻斗大街翻斗花园二号楼1001室'
+        }
+      ],
       title: '',
       dialogType: '',
       visible: false,
@@ -127,64 +97,31 @@ export default {
     }
   },
   created() {
-    this.getList()
   },
   methods: {
-    editUser(item,idx){
-            //console.log(item);
-             this.userIndex = idx;
-             this.$refs.myDialog.form = {
-                 name: item.name,
-                 phone: item.phone,
-                 id: item.id,
-                 sex: item.sex,
-                 address: item.address
-             };
-             this.dialogType ="edit" ;
-             this.visible = true;
-        },
-    getList() {
-      this.listLoading = true
-      fetchList(this.searchForm).then(response => {
-        this.list = response.list
-        this.total = response.total
-        this.listLoading = false
-      }).catch(() => {
-        this.listLoading = false
-      })
+    editUser(item, idx) {
+      // console.log(item);
+      this.userIndex = idx
+      this.$refs.myDialog.form = {
+        name: item.name,
+        phone: item.phone,
+        id: item.id,
+        sex: item.sex,
+        address: item.address
+      }
+      this.dialogType = 'edit'
+      this.title = '编辑人员'
+      this.visible = true
     },
     handelAdd(e, row) {
       this.dialogType = e
       this.visible = true
-      this.title = '添加标签'
-      if (e === 'edit') {
-        this.title = '编辑标签'
-        this.$nextTick(() => {
-          this.$refs.myDialog.fetchData(row.id)
-        })
-      }
-    },
-    handleDelete(row) {
-      this.$confirm('是否确认删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const postData = { 'id': row.id, 'memberType': this.$store.getters.token.memberType }
-        deleteLabel(postData).then(response => {
-          this.getList()
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-        })
-      }).catch(() => {
-      })
+      this.title = '添加人员'
     }
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .tableListIcon {
   width: 40px;
   height: 40px;

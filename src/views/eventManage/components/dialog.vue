@@ -11,15 +11,9 @@
               <el-date-picker v-model="form.date" placeholder="活动时间" />
             </el-form-item>
             <el-form-item label="活动地点：" prop="direction">
-              <el-cascader
-            size="large"
-            :options="options"
-            v-model="form.direction"
-            @change="handleChange">
-          </el-cascader>
+              <el-cascader v-model="form.direction" size="large" :options="options" @change="handleChange" />
             </el-form-item>
-            
-            <el-form-item label="宣传图：" v-model="form.img" prop="img">
+            <el-form-item v-model="form.img" label="宣传图：" prop="img">
               <el-upload
                 action="/management/f/ysmall/images/uploadImage"
                 :headers="headersObj"
@@ -32,7 +26,6 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon" />
               </el-upload>
             </el-form-item>
-            
           </el-form>
         </el-col>
       </el-row>
@@ -42,19 +35,18 @@
         </el-button>
       </div>
     </el-dialog>
-    
   </div>
 </template>
 
 <script>
-import { fetchDetails, insertLabel, updateLabel } from '@/api/labelManage'
+// import { fetchDetails, insertLabel, updateLabel } from '@/api/labelManage'
 import { getToken } from '@/utils/auth'
 import { regionData } from 'element-china-area-data'
 
 export default {
   name: 'MyDialog',
   components: {},
-  userIndex:0,
+  userIndex: 0,
   props: {
     title: {
       type: String,
@@ -116,19 +108,10 @@ export default {
   },
   created() {},
   methods: {
-    
-      handleChange (value) {
-        console.log(value)
-      },
-    
-    // fetchData(id) {
-    //   const postData = { 'id': id }
-    //   fetchDetails(postData).then(response => {
-    //     this.form = response
-    //   }).catch(err => {
-    //     console.log(err)
-    //   })
-    // },
+    handleChange(value) {
+      console.log(value)
+      this.form.direction = value
+    },
     handleAvatarSuccess(res, file) {
       console.log(res)
       this.form.labelIcon = res.fullUrl
@@ -168,7 +151,7 @@ export default {
       })
     },
     closeDialog() {
-      this.form= {
+      this.form = {
         name: '',
         date: '',
         direction: '',
